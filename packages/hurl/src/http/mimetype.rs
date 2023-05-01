@@ -15,6 +15,7 @@
  * limitations under the License.
  *
  */
+use regex::Regex;
 
 /// Returns true if binary data with this `content_type` can be decoded as text.
 pub fn is_kind_of_text(content_type: &str) -> bool {
@@ -31,9 +32,14 @@ pub fn is_html(content_type: &str) -> bool {
 
 /// Extracts charset from mime-type String
 pub fn charset(mime_type: &str) -> Option<String> {
-    mime_type
-        .find("charset=")
-        .map(|index| mime_type[(index + 8)..].to_string())
+    let re = Regex::new(r"charset=[a-zA-Z0-9-]+").unwrap();
+    let matches = re.find(mime_type);
+    if matches.is_some(){
+        Some(mime_type[(matches?.start() + 8)..matches?.end()].to_string())
+    }
+    else {
+        None
+    }
 }
 
 #[cfg(test)]
@@ -49,6 +55,14 @@ pub mod tests {
         assert_eq!(
             charset("text/plain; charset=ISO-8859-1"),
             Some("ISO-8859-1".to_string())
+        );
+        assert_eq!(
+            charset("application/json; charset=utf-8; api-version=7.1-preview.1"),
+            Some("utf-8".to_string())
+        );
+        assert_eq!(
+            charset("application/json; charset=UTF-8; api-version=7;"),
+            Some("UTF-8".to_string())
         );
         assert_eq!(charset("text/plain;"), None);
     }
