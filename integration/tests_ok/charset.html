@@ -8,4 +8,10 @@
 <span class="line"><span class="string">Content-Type</span>: <span class="string">text/html; charset=UTF-8</span></span>
 <span class="line"><span class="section-header">[Asserts]</span></span>
 <span class="line"><span class="query-type">body</span> <span class="predicate-type">==</span> <span class="string">"&lt;p&gt;Hello World!&lt;/p&gt;"</span></span>
+</span></span><span class="hurl-entry"><span class="request"><span class="line"></span>
+<span class="line"><span class="method">GET</span> <span class="url">http://localhost:8000/charset/api-version</span></span>
+</span><span class="response"><span class="line"><span class="version">HTTP</span> <span class="number">200</span></span>
+<span class="line"><span class="string">Content-Type</span>: <span class="string">application/json; charset=UTF-8; api-version=7.0-preview.1</span></span>
+<span class="line"><span class="section-header">[Asserts]</span></span>
+<span class="line"><span class="query-type">jsonpath</span> <span class="string">"$.version"</span> <span class="predicate-type">==</span> <span class="string">"7.0-preview.1"</span></span>
 </span></span></code></pre>
